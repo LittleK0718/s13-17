@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    tools:context=".MainActivity">
+
+    <!-- 頂部卡片 - 應用標題與賽制選擇 -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="龜兔賽跑"
+                android:textColor="#3F51B5"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvMatchType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="選擇賽制:"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+            <Spinner
+                android:id="@+id/spnMatches"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/spinner_background"
+                android:minHeight="48dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvMatchType"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvMatchType" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- 速度設定卡片 -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardSpeed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardHeader">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvSpeedSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="速度設定"
+                android:textColor="#3F51B5"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- 兔子速度調整 -->
+            <ImageView
+                android:id="@+id/ivRabbitIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/rabbit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSpeedSettings" />
+
+            <SeekBar
+                android:id="@+id/sbRabbitSpeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:max="9"
+                android:progress="2"
+                android:progressTint="#FF5252"
+                android:thumbTint="#FF5252"
+                app:layout_constraintBottom_toBottomOf="@+id/ivRabbitIcon"
+                app:layout_constraintEnd_toStartOf="@+id/tvRabbitSpeedValue"
+                app:layout_constraintStart_toEndOf="@+id/ivRabbitIcon"
+                app:layout_constraintTop_toTopOf="@+id/ivRabbitIcon" />
+
+            <TextView
+                android:id="@+id/tvRabbitSpeedValue"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/red"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/sbRabbitSpeed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/sbRabbitSpeed" />
+
+            <!-- 烏龜速度調整 -->
+            <ImageView
+                android:id="@+id/ivTurtleIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/turtle"
+                app:layout_constraintStart_toStartOf="@+id/ivRabbitIcon"
+                app:layout_constraintTop_toBottomOf="@+id/ivRabbitIcon" />
+
+            <SeekBar
+                android:id="@+id/sbTurtleSpeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:max="9"
+                android:progress="0"
+                android:progressTint="#4CAF50"
+                android:thumbTint="#4CAF50"
+                app:layout_constraintBottom_toBottomOf="@+id/ivTurtleIcon"
+                app:layout_constraintEnd_toStartOf="@+id/tvTurtleSpeedValue"
+                app:layout_constraintStart_toEndOf="@+id/ivTurtleIcon"
+                app:layout_constraintTop_toTopOf="@+id/ivTurtleIcon" />
+
+            <TextView
+                android:id="@+id/tvTurtleSpeedValue"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/green"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/sbTurtleSpeed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/sbTurtleSpeed" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- 賽跑卡片 -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardRace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardSpeed">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvRace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="賽跑進度"
+                android:textColor="#3F51B5"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- 兔子賽道 -->
+            <ImageView
+                android:id="@+id/ivRabbit"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/rabbit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRace" />
+
+            <SeekBar
+                android:id="@+id/sbRabbit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:progressTint="#FF5252"
+                android:thumbTint="#FF5252"
+                app:layout_constraintBottom_toBottomOf="@+id/ivRabbit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ivRabbit"
+                app:layout_constraintTop_toTopOf="@+id/ivRabbit" />
+
+            <!-- 烏龜賽道 -->
+            <ImageView
+                android:id="@+id/ivTurtle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/turtle"
+                app:layout_constraintStart_toStartOf="@+id/ivRabbit"
+                app:layout_constraintTop_toBottomOf="@+id/ivRabbit" />
+
+            <SeekBar
+                android:id="@+id/sbTurtle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:progressTint="#4CAF50"
+                android:thumbTint="#4CAF50"
+                app:layout_constraintBottom_toBottomOf="@+id/ivTurtle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ivTurtle"
+                app:layout_constraintTop_toTopOf="@+id/ivTurtle" />
+
+            <!-- 開始按鈕 -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#3F51B5"
+                android:paddingStart="24dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="24dp"
+                android:paddingBottom="10dp"
+                android:text="開始比賽"
+                android:textSize="16sp"
+                app:cornerRadius="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivTurtle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- 比賽歷史記錄卡片 -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardHistory"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardRace">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="比賽歷史"
+                android:textColor="#3F51B5"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvHistory"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvHistory" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
