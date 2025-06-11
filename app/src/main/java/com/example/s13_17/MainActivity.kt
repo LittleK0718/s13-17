@@ -4,6 +4,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.graphics.Color
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -75,6 +76,11 @@ class MainActivity : AppCompatActivity() {
     private var rabbitAnimator: ObjectAnimator? = null
     private var turtleAnimator: ObjectAnimator? = null
 
+    // 音樂播放相關變數
+    private var backgroundMusic: MediaPlayer? = null
+    private var winSound: MediaPlayer? = null
+    private var startSound: MediaPlayer? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -107,6 +113,10 @@ class MainActivity : AppCompatActivity() {
         adapter = RaceResultAdapter(raceResults)
         rvHistory.adapter = adapter
 
+
+        //初始畫音樂
+        setupMusic()
+
         // 將變數與XML元件綁定
         btnStart = findViewById(R.id.btnStart)
         sbRabbit = findViewById(R.id.sbRabbit)
@@ -117,6 +127,46 @@ class MainActivity : AppCompatActivity() {
             startRace()
         }
     }
+
+    private fun setupMusic() {
+        try {
+            // 初始化背景音樂
+            backgroundMusic = MediaPlayer.create(this, R.raw.background)
+            backgroundMusic?.isLooping = true  // 設定為循環播放
+
+            // 初始化音效
+            winSound = MediaPlayer.create(this, R.raw.win)
+            startSound = MediaPlayer.create(this, R.raw.start)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
+    private fun playBackgroundMusic() {
+        try {
+            backgroundMusic?.let {
+                if (!it.isPlaying) {
+                    it.start()
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun stopBackgroundMusic() {
+        try {
+            backgroundMusic?.let {
+                if (it.isPlaying) {
+                    it.pause()  // 使用pause而非stop，保持播放位置
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 
     private fun startRace() {
         // 進行賽跑後按鈕不可被操作
@@ -134,6 +184,8 @@ class MainActivity : AppCompatActivity() {
         resetanimalPosition()
         //開始按鈕動畫
         animaReStartButton()
+        //開始播放音樂
+        playBackgroundMusic()
 
         Handler(Looper.getMainLooper()).postDelayed({
             //兔子起跑
@@ -341,7 +393,7 @@ class MainActivity : AppCompatActivity() {
                 recordResult("兔子", progressRabbit, progressTurtle, currentTime)
                 btnStart.isEnabled = true
                 showToast("兔子獲勝")
-                //animateWinner("兔子")
+                animateWinner("兔子")
             }
 
         } else if (msg.what == 2) {
@@ -357,7 +409,7 @@ class MainActivity : AppCompatActivity() {
                 recordResult("烏龜", progressRabbit, progressTurtle, currentTime)
                 btnStart.isEnabled = true
                 showToast("烏龜獲勝")
-                //animateWinner("烏龜")
+                animateWinner("烏龜")
             }
         }
         true
@@ -407,6 +459,8 @@ class MainActivity : AppCompatActivity() {
     private fun animateWinner(winner: String) {
         val winnerView = if (winner == "兔子") ivRabbit else
         ivTurtle
+
+        stopBackgroundMusic()
 
         val scaleX = ObjectAnimator.ofFloat(winnerView, "scaleX", 1f, 1.5f, 1.2f)
         val scaleY = ObjectAnimator.ofFloat(winnerView, "scaleY", 1f, 1.5f, 1.2f)
