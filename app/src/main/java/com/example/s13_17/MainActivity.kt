@@ -403,6 +403,30 @@ class MainActivity : AppCompatActivity() {
         }.start() // 啟動 Thread
     }
 
+
+    private fun animateWinner(winner: String) {
+        val winnerView = if (winner == "兔子") ivRabbit else
+        ivTurtle
+
+        val scaleX = ObjectAnimator.ofFloat(winnerView, "scaleX", 1f, 1.5f, 1.2f)
+        val scaleY = ObjectAnimator.ofFloat(winnerView, "scaleY", 1f, 1.5f, 1.2f)
+        val rotation = ObjectAnimator.ofFloat(winnerView, "rotation", 0f, 360f)
+
+        val victorySet = AnimatorSet()
+        victorySet.playTogether(scaleX, scaleY, rotation)
+        victorySet.duration = 1000
+        victorySet.interpolator = BounceInterpolator()
+        victorySet.start()
+
+        val blinkAnimation = ObjectAnimator.ofFloat(winnerView, "alpha", 1f, 0.3f, 1f)
+        blinkAnimation.duration = 300
+        blinkAnimation.repeatCount = 5
+        blinkAnimation.startDelay = 1000  // 延遲1秒開始
+        blinkAnimation.start()
+    }
+
+
+
     private fun recordResult(
         winner: String,
         rabbittimes: Int,
