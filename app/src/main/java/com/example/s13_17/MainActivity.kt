@@ -128,6 +128,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        // 暫停背景音樂
+        stopBackgroundMusic()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // 如果比賽正在進行，恢復背景音樂
+        if (!btnStart.isEnabled) {  // 比賽進行中的判斷條件
+            playBackgroundMusic()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 釋放音樂資源
+        try {
+            backgroundMusic?.release()
+            winSound?.release()
+            startSound?.release()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     private fun setupMusic() {
         try {
             // 初始化背景音樂
@@ -167,6 +193,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun playSound(soundPlayer: MediaPlayer?) {
+        try {
+            soundPlayer?.let {
+                if (it.isPlaying) {
+                    it.seekTo(0)  // 如果正在播放，重新開始
+                } else {
+                    it.start()    // 開始播放
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 
     private fun startRace() {
         // 進行賽跑後按鈕不可被操作
@@ -184,7 +224,10 @@ class MainActivity : AppCompatActivity() {
         resetanimalPosition()
         //開始按鈕動畫
         animaReStartButton()
+
+
         //開始播放音樂
+        playSound(startSound)
         playBackgroundMusic()
 
         Handler(Looper.getMainLooper()).postDelayed({
@@ -253,13 +296,14 @@ class MainActivity : AppCompatActivity() {
         val targetX = (progress / 100f) * maxWidth
 
         turtleAnimator?.cancel()
-        turtleAnimator = ObjectAnimator.ofFloat(ivTurtle, "translationX", ivTurtle.translationX, targetX)
+        turtleAnimator =
+            ObjectAnimator.ofFloat(ivTurtle, "translationX", ivTurtle.translationX, targetX)
         turtleAnimator?.duration = 300
         turtleAnimator?.interpolator = AccelerateDecelerateInterpolator()
         turtleAnimator?.start()
 
-        val wiggle=ObjectAnimator.ofFloat(ivTurtle, "rotation", -2f,2f,-2f)
-        wiggle.duration=400
+        val wiggle = ObjectAnimator.ofFloat(ivTurtle, "rotation", -2f, 2f, -2f)
+        wiggle.duration = 400
         wiggle.start()
     }
 
@@ -458,9 +502,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun animateWinner(winner: String) {
         val winnerView = if (winner == "兔子") ivRabbit else
-        ivTurtle
+            ivTurtle
 
+
+        //停止背景音樂
         stopBackgroundMusic()
+        playSound(winSound)
 
         val scaleX = ObjectAnimator.ofFloat(winnerView, "scaleX", 1f, 1.5f, 1.2f)
         val scaleY = ObjectAnimator.ofFloat(winnerView, "scaleY", 1f, 1.5f, 1.2f)
@@ -478,7 +525,6 @@ class MainActivity : AppCompatActivity() {
         blinkAnimation.startDelay = 1000  // 延遲1秒開始
         blinkAnimation.start()
     }
-
 
 
     private fun recordResult(
@@ -515,7 +561,7 @@ class MainActivity : AppCompatActivity() {
             "烏龜" -> turtlewin++
         }
 
-        var winThreadholds = (best0f / 2) + 1
+        val winThreadholds = (best0f / 2) + 1
         showToast("目前比分 - 兔子:$rabbitwin, 烏龜:$turtlewin")
 
         if (rabbitwin >= winThreadholds || turtlewin >= winThreadholds) {
